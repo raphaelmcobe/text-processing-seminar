@@ -11,6 +11,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="dist/reset.css">
   <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/style.css">
   <link rel="stylesheet" href="dist/theme/night.css" id="theme"><!-- Theme used for syntax highlighting of code -->
   <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
 </head>
@@ -24,35 +25,321 @@
         <h3>Processing Textual Data with Python</h3>
 	<p><small><em><a href="http://twitter.com/raphaelmcobe">@raphaelmcobe</a></em></small></p>
       </section>
-      <section>
-        <h2>Hello There</h2>
-        <p>reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.</p>
-      </section><!-- Example of nested vertical slides -->
-      <section>
-        <section>
-          <h2>Vertical Slides</h2>
-          <p>Slides can be nested inside of each other.</p>
-          <p>Use the <em>Space</em> key to navigate through all slides.</p><br>
-          <a href="#" class="navigate-down"><img class="r-frame" style="background: rgba(255,255,255,0.1);" width="178" height="238" data-src="https://static.slid.es/reveal/arrow.png" alt="Down arrow"></a>
-        </section>
-        <section>
-          <h2>Basement Level 1</h2>
-          <p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
-        </section>
-        <section>
-          <h2>Basement Level 2</h2>
-          <p>That's it, time to go back up.</p><br>
-          <a href="#/2"><img class="r-frame" style="background: rgba(255,255,255,0.1); transform: rotate(180deg);" width="178" height="238" data-src="https://static.slid.es/reveal/arrow.png" alt="Up arrow"></a>
-        </section>
+
+      <section data-markdown data-separator="^---" 
+               data-separator-vertical="^--"
+               data-separator-notes="^\nNote:"
+               data-charset="iso-8859-15"
+               style="text-align: left;">
+        <textarea data-template>
+          ## Introduction/Motivation
+          <!-- .slide: data-background="#6d8ba7" -->
+
+          --
+
+          ### A (few) word (s) on unstructure data
+          - Structured or Semistructured data includes fields or markup that
+          enable it to be <span class="highlight">easily parsed by a
+          computer</span>;
+          - Language is <span class="highlight">unstructured data</span> that
+          has been <span class="highlight">produced by people</span> to
+          be <span class="highlight">understood by other people</span>;
+          - Retrieving information from unstructured data <span
+            class="highlight">is essential</span>!  - It is estimated that [80%
+          of the world’s data is
+          unstructured](https://www.ibm.com/blogs/watson/2016/05/biggest-data-challenges-might-not-even-know/).
+          - Unstructured data <span class="fragment highlight-red">*is not
+            random!*</span>
+            - Linguistic properties that make it very understandable to other
+            people <!-- .element: class="fragment" -->
+
+          --
+
+          ### Language as Data
+          - Text mining:
+            - Process of deriving insights from (unstructured) text data;
+          - Natural Language Processing (NLP): 
+            - Part of computer science and artificial intelligence which deals
+            with human languages.  - Sentiment Analysis:
+            - Just a small variant of Text mining;
+
+          Note:
+          This is a simple note
+          - Test 
+          - Test2
+
+          --
+
+          ### Understanding text is hard
+          - Real-world data is often <span class="highlight-r">messy</span> and <span class="highlight-r">noisy</span>;
+          - Several factors that makes this process hard:
+            - Encoding scheme used (ASCII, UTF-8, UTF-16, Latin-1, etc.); <!-- .element: class="fragment" -->
+            - hundreds of natural languages, each of which has different syntax
+            rules; <!-- .element: class="fragment" -->
+            - Words can be ambiguous (dependent on their context);<!-- .element: class="fragment" -->
+            - case-sensitive, punctuation, numbers, hyperlinks, the use of
+            emoticons and emojis <!-- .element: class="fragment" --> <span>&#x1F61C;</span><!-- .element: class="fragment" -->
+            - synonyms, abbreviation, acronyms, and spelling errors;<!-- .element: class="fragment" -->
+          - often need to understand which words in a sentence are nouns and
+          which are verbs; <!-- .element: class="fragment" -->
+
+          ---
+
+          ## Processing Textual data
+          <!-- .slide: data-background="#6d8ba7" -->
+
+          --
+
+          ### How to process textual data?
+          - “the numbers don’t lie” and not “the text doesn’t lie”;
+          - Machine learning: 
+            - train statistical models on language as it changes;
+          - building models of language on <span class="highlight">
+            context-specific corpora</span>;
+          - Model that describes language and can make inferences based on that
+          description
+          - To take advantage of the predictability of text, we need to define
+          a constrained, numeric decision space on which the model can compute;
+
+          --
+
+          ### How to process textual data?
+          - Break the text processing into steps:
+            - <span class="fragment highlight-blue">Finding Parts of Text</span>
+            - Finding Sentences
+            - Finding People and Things
+            - Detecting Parts of Speech
+            - <span class="fragment highlight-blue">Classifying Text and
+              Documents</span>
+            - Extracting Relationships
+            - Combined Approaches 
+          
+          ---
+          <!-- .slide: data-background="#6d8ba7" -->
+          ## Finding Parts of Text
+
+          Examples taken from [Real Python Regular Expressions
+          Tutorial](https://realpython.com/regex-python/)
+          --
+
+          ### Regular Expressions
+          A (very) brief history
+          - In 1951, mathematician Stephen Cole Kleene described the concept of
+          a regular language, a language that is recognizable by a finite
+          automaton;
+          -  In the mid-1960s, computer science pioneer Ken Thompson, one of
+          the original designers of Unix, implemented pattern matching in the
+          QED text editor;
+          - Appeared in many programming languages, editors, and other tools as
+          a means of determining whether a string matches a specified pattern;
+
+          --
+        
+          ### The Python `re` module
+          - Regex functionality in Python resides in a module named `re`. The
+          `re` module contains many useful functions and methods. Let's play a
+          little bit with the `search()` function:
+          - `re.search(<regex>, <string>)`
+
+          ```python[1|2|3-4]
+          >>> import re
+          >>> text = "foo123foo"
+          >>> re.search("123", text)
+          <re.Match object; span=(3, 6), match='123'>
+          ```
+
+          --
+        
+          ### The Python `re` module
+          - `span=(3, 6)` indicates the portion of `<string>` in which the
+          match was found. This means the same thing as it would in slice
+          notation:
+
+          ```python[1|2]
+          >>> text[3:6]
+          '123'
+          ```
+
+          --
+
+          ### Regular Expressions in Python
+          - Any character or sequence of carachters is a valid regular
+          expression;
+          - The `search()` function returns the first sequence of characters
+          that matches the RE;
+
+          ```python[2-3|4-5]
+          >>> text="abc123abc"
+          >>> re.search("a", text)
+          <re.Match object; span=(0, 1), match='a'>
+          >>> re.search("abc", text)
+          <re.Match object; span=(0, 3), match='abc'>
+          ```
+
+          --
+
+          ### Regular Expressions in Python
+          Metacharacters
+          - Real power of regex matching in Python emerges when `<regex>`
+          contains special characters called <span class="highlight">metacharacters</span>;
+          - Unique meaning to the regex matching engine;
+          - **Character class**:
+            - Matches any single character that is in the class;
+            - Defined using square brackets ([]);
+            - Can be used to specify intervals
+          ```python[1-2|3-4|5-6|7-8]
+          >>> re.search('[0-9]', "abc123abc")
+          <re.Match object; span=(3, 4), match='1'>
+          >>> re.search('[2-9]', "abc123abc")
+          <re.Match object; span=(4, 5), match='2'>
+          >>> re.search('[0-9][0-9][0-9]', "abc123abc")
+          <re.Match object; span=(3, 6), match='123'>
+          >>> re.search('[2-9][0-9]', "abc123abc")
+          <re.Match object; span=(4, 6), match='23'>
+          ```
+
+          --
+
+          ### Regular Expressions in Python
+          Metacharacters - character classes
+          - Can have all the characters enumerated:
+          ```python[1-2|3-4]
+          >>> re.search('ab[cde]', "abc123abc")
+          <re.Match object; span=(0, 3), match='abc'>
+          >>> re.search('ab[cde]', "abd123abc")
+          <re.Match object; span=(0, 3), match='abd'>
+          ```
+          - Complement a character class by specifying `^` as the first
+          character:
+          ```python
+          >>> re.search('ab[^cde]', "abc abd abe abf")
+          <re.Match object; span=(12, 15), match='abf'>
+          ```
+
+          --
+
+          ### Regular Expressions in Python
+          Metacharacters
+          -  The dot (.) metacharacter matches any character except a newline,
+          so it functions like a wildcard:
+
+          ```python[1-2|3-4]
+          >>> re.search('1.3', "abc123abc")
+          <re.Match object; span=(3, 6), match='123'>
+          >>> print(re.search('foo.bar', 'foobar'))
+          None
+          ```
+
+          --
+
+          ### Regular Expressions in Python
+          Metacharacters
+          - Quantifiers:
+            - Indicates how many times that portion must occur for the match to succeed
+            - `*` matches zero or more repetitions of the preceding regex:
+            ```python[1-2|3-4|5-6]
+            >>> re.search('foo-*bar', 'foobar')  # Zero dashes
+            <re.Match object; span=(0, 6), match='foobar'>
+            >>> re.search('foo-*bar', 'foo-bar') # One dash
+            <re.Match object; span=(0, 7), match='foo-bar'>
+            >>> re.search('foo-*bar', 'foo--bar') # Two dashes
+            <re.Match object; span=(0, 8), match='foo--bar'>
+            ```
+            - `.*` This matches zero or more occurrences of any character:
+            ```python
+            >>> re.search('foo.*bar', '# foo $qux@grault % bar #')
+            <re.Match object; span=(2, 23), match='foo $qux@grault % bar'>
+            ```
+
+          --
+
+          ### Regular Expressions in Python
+          Metacharacters
+          - Quantifiers:
+            - `+` matches one or more repetitions of the preceding regex;
+            - `?` matches zero or one repetitions of the preceding regex;
+            - `{m}` matches exactly `m` repetitions of the preceding regex;
+            - `{m,n}` matches any number of repetitions of the preceding regex
+            from `m` to `n`, inclusive.
+
+          --
+
+          ### Regular Expressions in Python
+          Metacharacters
+          - Anchors: zero-width matches. 
+            - Don’t match any actual characters in the search string;
+            - Dictates a particular location in the search string where a match
+            must occur;
+            - `^` or `\A` anchor a match to the start of the text:
+            ```python[1-2|3-4]
+            >>> re.search('^foo', 'foobar')
+            <re.Match object; span=(0, 3), match='foo'>
+            >>> re.search('^foo', 'barfoo')
+            None
+            ```
+            - `$` or `\Z` anchor a match to the end of the text:
+            ```python[1-2|3-4]
+            >>> re.search('bar$', 'foobar')
+            <re.Match object; span=(3, 6), match='bar'>
+            >>> re.search('bar$', 'barfoo')
+            None
+            ```
+          
+          --
+
+          ### Regular Expressions
+          Why are they so important?
+          
+          - Removing uninportant text:
+            - Use the `re.sub()` function;
+            - Strip all non alphanumerical characters:
+          ```python
+          >>> re.sub('[^a-zA-Z0-9_]+', '', "foo1!bar#~2")
+          'foo1bar2'
+          ```
+            - Remove all punctuation signs (`\s` represents any whitespace
+            character):
+          ```python
+          >>> re.sub("[^a-zA-Z0-9_]\s",' ',"Foo. Bar? Foo.Bar")
+          'Foo Bar Foo.Bar'
+          ```
+            - Remove all numbers from the text:
+          ```python
+          >>> re.sub('[0-9]+', '', "Foo 123 Bar 456")
+          'Foo  Bar '
+          ```
+
+          ---
+          ## Further Cleaning the Text
+          <!-- .slide: data-background="#6d8ba7" -->
+          Standard text mining procedures to extract useful features from the
+          news contents, including:
+          <ul>
+            <li><b>tokenization</b>,</li>
+            <li><b>removing stopwords</b>, and </li>
+            <li><b>lemmatization/stemming</b></li>
+          </ul>
+
+          --
+
+          ### Tokenization
+          - The process of breaking strings into tokens which in turn are small
+          structures or units;
+          - Taking individual words rather than sentences breaks down the
+          connections between words
+          - It is efficient and convenient for computers to analyze
+          - Most of the times, discovering what words appear in a text and
+          counting the times that these words appear is sufficient to give
+          insightful results;
+          - Transforms a text into a list of words;
+          - Remove useless information (using Regular Expressions!)
+
+
+
+        </textarea>
       </section>
-      <section>
-        <h2>Slides</h2>
-        <p>Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a href="https://slides.com" target="_blank">https://slides.com</a>.</p>
-      </section>
-      <section data-visibility="hidden">
-        <h2>Hidden Slides</h2>
-        <p>This slide is visible in the source, but hidden when the presentation is viewed. You can show all hidden slides by setting the `showHiddenSlides` config option to `true`.</p>
-      </section>
+
+
       <section data-auto-animate="">
         <h2 data-id="code-title">Pretty Code</h2>
         <pre data-id="code-animation"><code class="hljs" data-trim="" data-line-numbers="">
@@ -102,244 +389,6 @@
                                                 }
 </script></code></pre>
       </section>
-      <section>
-        <h2>Point of View</h2>
-        <p>Press <strong>ESC</strong> to enter the slide overview.</p>
-        <p>Hold down the <strong>alt</strong> key (<strong>ctrl</strong> in Linux) and click on any element to zoom towards it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Click again to zoom back out.</p>
-        <p>(NOTE: Use ctrl + click in Linux.)</p>
-      </section>
-      <section data-auto-animate="" data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
-        <h2>Auto-Animate</h2>
-        <p>Automatically animate matching elements across slides with <a href="https://revealjs.com/auto-animate/">Auto-Animate</a>.</p>
-        <div class="r-hstack justify-center">
-          <div data-id="box1" style="background: #999; width: 50px; height: 50px; margin: 10px; border-radius: 5px;"></div>
-          <div data-id="box2" style="background: #999; width: 50px; height: 50px; margin: 10px; border-radius: 5px;"></div>
-          <div data-id="box3" style="background: #999; width: 50px; height: 50px; margin: 10px; border-radius: 5px;"></div>
-        </div>
-      </section>
-      <section data-auto-animate="" data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
-        <div class="r-hstack justify-center">
-          <div data-id="box1" data-auto-animate-delay="0" style="background: cyan; width: 150px; height: 100px; margin: 10px;"></div>
-          <div data-id="box2" data-auto-animate-delay="0.1" style="background: magenta; width: 150px; height: 100px; margin: 10px;"></div>
-          <div data-id="box3" data-auto-animate-delay="0.2" style="background: yellow; width: 150px; height: 100px; margin: 10px;"></div>
-        </div>
-        <h2 style="margin-top: 20px;">Auto-Animate</h2>
-      </section>
-      <section data-auto-animate="" data-auto-animate-easing="cubic-bezier(0.770, 0.000, 0.175, 1.000)">
-        <div class="r-stack">
-          <div data-id="box1" style="background: cyan; width: 300px; height: 300px; border-radius: 200px;"></div>
-          <div data-id="box2" style="background: magenta; width: 200px; height: 200px; border-radius: 200px;"></div>
-          <div data-id="box3" style="background: yellow; width: 100px; height: 100px; border-radius: 200px;"></div>
-        </div>
-        <h2 style="margin-top: 20px;">Auto-Animate</h2>
-      </section>
-      <section>
-        <h2>Touch Optimized</h2>
-        <p>Presentations look great on touch devices, like mobile phones and tablets. Simply swipe through your slides.</p>
-      </section>
-      <section data-markdown="">
-        <script type="text/template">
-                                                ## Markdown support
-
-                                                Write content using inline or external Markdown.
-                                                Instructions and more info available in the [docs](https://revealjs.com/markdown/).
-
-                                                ```[]
-                                                <section data-markdown>
-                                                  ## Markdown support
-
-                                                  Write content using inline or external Markdown.
-                                                  Instructions and more info available in the [docs](https://revealjs.com/markdown/).
-                                                </section>
-                                                ```
-        </script>
-      </section>
-      <section>
-        <p>Add the <code>r-fit-text</code> class to auto-size text</p>
-        <h2 class="r-fit-text">FIT TEXT</h2>
-      </section>
-      <section>
-        <section id="fragments">
-          <h2>Fragments</h2>
-          <p>Hit the next arrow...</p>
-          <p class="fragment">... to step through ...</p>
-          <p><span class="fragment">... a</span> <span class="fragment">fragmented</span> <span class="fragment">slide.</span></p>
-          <aside class="notes">
-            This slide has fragments which are also stepped through in the notes window.
-          </aside>
-        </section>
-        <section>
-          <h2>Fragment Styles</h2>
-          <p>There's different types of fragments, like:</p>
-          <p class="fragment grow">grow</p>
-          <p class="fragment shrink">shrink</p>
-          <p class="fragment fade-out">fade-out</p>
-          <p><span style="display: inline-block;" class="fragment fade-right">fade-right,</span> <span style="display: inline-block;" class="fragment fade-up">up,</span> <span style="display: inline-block;" class="fragment fade-down">down,</span> <span style="display: inline-block;" class="fragment fade-left">left</span></p>
-          <p class="fragment fade-in-then-out">fade-in-then-out</p>
-          <p class="fragment fade-in-then-semi-out">fade-in-then-semi-out</p>
-          <p>Highlight <span class="fragment highlight-red">red</span> <span class="fragment highlight-blue">blue</span> <span class="fragment highlight-green">green</span></p>
-        </section>
-      </section>
-      <section id="transitions">
-        <h2>Transition Styles</h2>
-        <p>You can select from different transitions, like:<br>
-        <a href="?transition=none#/transitions">None</a> - <a href="?transition=fade#/transitions">Fade</a> - <a href="?transition=slide#/transitions">Slide</a> - <a href="?transition=convex#/transitions">Convex</a> - <a href="?transition=concave#/transitions">Concave</a> - <a href="?transition=zoom#/transitions">Zoom</a></p>
-      </section>
-      <section id="themes">
-        <h2>Themes</h2>
-        <p>reveal.js comes with a few themes built in:<br>
-        <!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
-         <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> - <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> - <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> - <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> - <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> - <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a><br>
-        <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> - <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a> - <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> - <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> - <a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a></p>
-      </section>
-      <section>
-        <section data-background="#dddddd">
-          <h2>Slide Backgrounds</h2>
-          <p>Set <code>data-background="#dddddd"</code> on a slide to change the background color. All CSS color formats are supported.</p><a href="#" class="navigate-down"><img class="r-frame" style="background: rgba(255,255,255,0.1);" width="178" height="238" data-src="https://static.slid.es/reveal/arrow.png" alt="Down arrow"></a>
-        </section>
-        <section data-background="https://static.slid.es/reveal/image-placeholder.png">
-          <h2>Image Backgrounds</h2>
-          <pre><code class="hljs html">&lt;section data-background="image.png"&gt;</code></pre>
-        </section>
-        <section data-background="https://static.slid.es/reveal/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
-          <h2>Tiled Backgrounds</h2>
-          <pre><code class="hljs html" style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
-        </section>
-        <section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4" data-background-color="#000000">
-          <div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
-            <h2>Video Backgrounds</h2>
-            <pre><code class="hljs html" style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
-          </div>
-        </section>
-        <section data-background="http://i.giphy.com/90F8aUepslB84.gif">
-          <h2>... and GIFs!</h2>
-        </section>
-      </section>
-      <section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-        <h2>Background Transitions</h2>
-        <p>Different background transitions are available via the backgroundTransition option. This one's called "zoom".</p>
-        <pre><code class="hljs javascript">Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
-      </section>
-      <section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
-        <h2>Background Transitions</h2>
-        <p>You can override background transitions per-slide.</p>
-        <pre><code class="hljs html" style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
-      </section>
-      <section data-background-iframe="https://hakim.se" data-background-interactive="">
-        <div style="position: absolute; width: 40%; right: 0; box-shadow: 0 1px 4px rgba(0,0,0,0.5), 0 5px 25px rgba(0,0,0,0.2); background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px; font-size: 20px; text-align: left;">
-          <h2>Iframe Backgrounds</h2>
-          <p>Since reveal.js runs on the web, you can easily embed other web content. Try interacting with the page in the background.</p>
-        </div>
-      </section>
-      <section>
-        <h2>Marvelous List</h2>
-        <ul>
-          <li>No order here</li>
-          <li>Or here</li>
-          <li>Or here</li>
-          <li>Or here</li>
-        </ul>
-      </section>
-      <section>
-        <h2>Fantastic Ordered List</h2>
-        <ol>
-          <li>One is smaller than...</li>
-          <li>Two is smaller than...</li>
-          <li>Three!</li>
-        </ol>
-      </section>
-      <section>
-        <h2>Tabular Tables</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Item</th>
-              <th>Value</th>
-              <th>Quantity</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Apples</td>
-              <td>$1</td>
-              <td>7</td>
-            </tr>
-            <tr>
-              <td>Lemonade</td>
-              <td>$2</td>
-              <td>18</td>
-            </tr>
-            <tr>
-              <td>Bread</td>
-              <td>$3</td>
-              <td>2</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-      <section>
-        <h2>Clever Quotes</h2>
-        <p>These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">The nice thing about standards is that there are so many to choose from</q> and block:</p>
-        <blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-          “For years there has been a theory that millions of monkeys typing at random on millions of typewriters would reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.”
-        </blockquote>
-      </section>
-      <section>
-        <h2>Intergalactic Interconnections</h2>
-        <p>You can link between slides internally, <a href="#/2/3">like this</a>.</p>
-      </section>
-      <section>
-        <h2>Speaker View</h2>
-        <p>There's a <a href="https://revealjs.com/speaker-view/">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
-        <p>Press the <em>S</em> key to try it out.</p>
-        <aside class="notes">
-          Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-        </aside>
-      </section>
-      <section>
-        <h2>Export to PDF</h2>
-        <p>Presentations can be <a href="https://revealjs.com/pdf-export/">exported to PDF</a>, here's an example:</p><iframe data-src="https://www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen></iframe>
-      </section>
-      <section>
-        <h2>Global State</h2>
-        <p>Set <code>data-state="something"</code> on a slide and <code>"something"</code> will be added as a class to the document element when the slide is open. This lets you apply broader style changes, like switching the page background.</p>
-      </section>
-      <section data-state="customevent">
-        <h2>State Events</h2>
-        <p>Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.</p>
-        <pre><code class="javascript" data-trim="" contenteditable="" style="font-size: 18px;">
-Reveal.on( 'customevent', function() {
-        console.log( '"customevent" has fired' );
-} );
-                                        </code></pre>
-      </section>
-      <section>
-        <h2>Take a Moment</h2>
-        <p>Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.</p>
-      </section>
-      <section>
-        <h2>Much more</h2>
-        <ul>
-          <li>Right-to-left support</li>
-          <li>
-            <a href="https://revealjs.com/api/">Extensive JavaScript API</a>
-          </li>
-          <li>
-            <a href="https://revealjs.com/auto-slide/">Auto-progression</a>
-          </li>
-          <li>
-            <a href="https://revealjs.com/backgrounds/#parallax-background">Parallax backgrounds</a>
-          </li>
-          <li>
-            <a href="https://revealjs.com/keyboard/">Custom keyboard bindings</a>
-          </li>
-        </ul>
-      </section>
-      <section style="text-align: left;">
-        <h1>THE END</h1>
-        <p>- <a href="https://slides.com">Try the online editor</a><br>
-        - <a href="https://github.com/hakimel/reveal.js">Source code & documentation</a></p>
-      </section>
     </div>
   </div>
   <script src="dist/reveal.js"></script> 
@@ -358,7 +407,8 @@ Reveal.on( 'customevent', function() {
                                 progress: true,
                                 center: true,
                                 hash: true,
-
+                                width: 1280,
+                                height: 720,
                                 // Learn about plugins: https://revealjs.com/plugins/
                                 plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
                         });

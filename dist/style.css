@@ -1,0 +1,37 @@
+/*.reveal section p {
+    font-weight: bold !important;
+    font-size: 1.1em !important;
+}
+*/
+.reveal section ul {
+    font-size: .9em !important;
+}
+/*.reveal section pre code {
+    font-size: 0.7em !important;
+}*/
+
+
+.highlight {
+  color: #72ade4;
+}
+
+.highlight-r {
+  color: #ff2c2d;
+}
+
+.reveal {
+    font-family: "Nunito" !important;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+    font-weight: bold !important;
+    line-height: 1.25 !important;
+    letter-spacing: normal !important;
+    word-wrap: break-word !important;
+    margin: 0 0 2.25rem 0 !important;
+}
