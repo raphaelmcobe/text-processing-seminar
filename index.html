@@ -417,76 +417,146 @@
 
           ### Python [Natural Language Toolkit - NLTK](https://www.nltk.org/)
           Tokenization
-          - Let's check all of the lyrics at once:
+          - Let's Inspect the lines from
+          [Ghostbusters](https://www.imdb.com/title/tt0087332/) from the
+          [Cornell Movie Lines
+          Corpus](https://www.cs.cornell.edu/~cristian/Cornell_Movie-Dialogs_Corpus.html):
 
-          ```python
+          ```python[1-3|5-6|8-10]
           # load data and concatenate all lyrics
-          data = pd.read_csv("./bowie_songs.csv")
-          bowie_lyrics = " ".join(data.iloc[:,1])
+          movie_db = pd.read_csv("./movie_lines_db.csv")
+          ghostbusters_lines = movie_db[movie_db['movie_name']=='ghostbusters'].iloc[0,1]
 
           # tokenize
-          token = word_tokenize(bowie_lyrics)
+          token = word_tokenize(ghostbusters_lines)
 
           # build the frequency distribution and print the top 10 occurences:
           fdist = FreqDist(token)
           fdist.most_common(10)
           ```
           ```
-[(',', 2916), ('the', 2386), ('I', 2344), ('you', 1313), ('a', 1140), ('to', 993), ("'s", 870), ('and', 812), ('of', 778), ('me', 762)]
-
+[('.', 535), ('I', 223), (',', 201), ('the', 162), ('?', 160), ('you', 158), ('to', 123), ('a', 110), ("'s", 85), ('it', 82)]
           ```
+
+          --
+          
+          ### Removing Stop Words
+          - Remove the useless words;
+          - Words that frequently appear in many text fragments, but without
+          significant meanings;
+          - Do not provide any meaning and are usually removed from texts
+          - e.g.: ‘I’, ‘the’, ‘a’, ‘of’
+          - Import the stopwords from the NLTK library;
+
+          --
+
+          ### Python [Natural Language Toolkit - NLTK](https://www.nltk.org/)
+          Removing stopwords 
+          - Continuing with the
+          [Ghostbusters](https://www.imdb.com/title/tt0087332/) lines from the
+          [Cornell Movie Lines
+          Corpus](https://www.cs.cornell.edu/~cristian/Cornell_Movie-Dialogs_Corpus.html):
+
+          ```python
+          # importing stopwors from nltk library
+          from nltk import word_tokenize
+          from nltk.corpus import stopwords
+          english_stopwords = set(stopwords.words('english'))
+
+          # Create list of tokens coverting all text to lower case
+          ghostbusters_token = word_tokenize(ghostsbusters_lines.lower())
+
+          # List words from lines that are not in the set of stopwords
+          clean_lines = [word for word in ghostbusters_token if word not in
+          english_stopwords]
+          print(clean_lines)
+          ```
+          ```
+          ["'s", 'matter', ',', 'dear', '?', 'uuuuuuugh', '!', '!', 'hey', ',',
+          'sweetheart', ',', 'cut',...]
+          ```
+
+          --
+          
+          ### Stemming
+          - refers to normalizing words into its base form or root form;
+          - two methods in Stemming namely, Porter Stemming (removes common
+          morphological and inflectional endings from words) and Lancaster
+          Stemming (a more aggressive stemming algorithm)
+          --
+
+          ### Python [Natural Language Toolkit - NLTK](https://www.nltk.org/)
+          Removing stopwords 
+          - Continuing with the
+          [Ghostbusters](https://www.imdb.com/title/tt0087332/) lines from the
+          [Cornell Movie Lines
+          Corpus](https://www.cs.cornell.edu/~cristian/Cornell_Movie-Dialogs_Corpus.html):
+
+          ```python
+          # Importing Porterstemmer from nltk library
+          from nltk.stem import PorterStemmer
+          pst = PorterStemmer()
+          
+          stemmed_tokens = [pst.stem(word) for word in clean_lines]
+          print(stemmed_tokes)
+          ```
+          ```
+          [...,'probabl', 'would', "'ve", '.', "n't", 'glad', 'wait', '?','go', 'say', '``', 'eight', '.', "''", "'re", 'fantast', '!','eight', "o'clock", '?', 'okay', '.', 'give', 'second', '.','leav',...]
+          ```
+
+          ---
+          ## Sentiment Analysis
+          <!-- .slide: data-background="#6d8ba7" -->
+
+          --
+          ### Sentiment Analysis
+          - Also known as opinion mining;
+          - Used to determine whether data is positive, negative or neutral;
+            - focus on polarity (positive, negative, neutral);
+          - Help businesses monitor brand and product sentiment in customer
+          feedback, and understand customer needs;
+          - Can use heavy Machine Learning techniques, such as Artificial
+          Neural Networks, or can be based on Rules;
+
+
+          --
+          ### Sentiment Analysis
+          Rule Based
+          - Include various NLP techniques developed in computational
+          linguistics, such as: Stemming, Tokenization, and Text cleaning;
+          - Use of Sentiment Lexicons (i.e. lists of words and expressions);
+          - Very naive since they don't take into account how words are
+          combined in a sequence;
+            - Leave out the context;
+          - Often require fine-tuning and maintenance;
+
+          --
+          ### Python Sentiment Analysis
+          After cleaning, tokenizing and stemming the text:
+          - Use well-known lexicons, e.g.: [The subjectivity
+          lexicon](http://mpqa.cs.pitt.edu/lexicons/subj_lexicon/) or the 
+          [Valence Aware Dictionary and sEntiment Reasoner -
+          VADER](https://github.com/cjhutto/vaderSentiment)
+
+          ```python[1-4|6-7|9-11|13-14]
+          # first load VADER
+          import nltk
+          from nltk.sentiment.vader import SentimentIntensityAnalyzer
+          nltk.download('vader_lexicon')
+
+          # instantiate the sentiment analyzer:
+          vader = SentimentIntensityAnalyzer()
+
+          # check scores for some phrases:
+          print(vader.polarity_scores("This was the best idea I've had in a long time"))
+          {'neg': 0.0, 'neu': 0.682, 'pos': 0.318, 'compound': 0.6369}
+
+          print(vader.polarity_scores("This was the worst idea I've had in a long time"))
+          {'neg': 0.313, 'neu': 0.687, 'pos': 0.0, 'compound': -0.6249}
+          ```
+          
+
         </textarea>
-      </section>
-
-
-      <section data-auto-animate="">
-        <h2 data-id="code-title">Pretty Code</h2>
-        <pre data-id="code-animation"><code class="hljs" data-trim="" data-line-numbers="">
-                                                import React, { useState } from 'react';
-
-                                                function Example() {
-                                                  const [count, setCount] = useState(0);
-
-                                                  return (
-                                                    ...
-                                                  );
-                                                }
-                                        </code></pre>
-        <p>Code syntax highlighting courtesy of <a href="https://highlightjs.org/usage/">highlight.js</a>.</p>
-      </section>
-      <section data-auto-animate="">
-        <h2 data-id="code-title">With animations</h2>
-        <pre data-id="code-animation"><code class="hljs" data-trim="" data-line-numbers="|4,8-11|17|22-24">
-<script type="text/template">
-
-                                                import React, { useState } from 'react';
-
-                                                function Example() {
-                                                  const [count, setCount] = useState(0);
-
-                                                  return (
-                                                    <div>
-                                                      <p>You clicked {count} times</p>
-                                                      <button onClick={() => setCount(count + 1)}>
-                                                        Click me
-                                                      </button>
-                                                    </div>
-                                                  );
-                                                }
-
-                                                function SecondExample() {
-                                                  const [count, setCount] = useState(0);
-
-                                                  return (
-                                                    <div>
-                                                      <p>You clicked {count} times</p>
-                                                      <button onClick={() => setCount(count + 1)}>
-                                                        Click me
-                                                      </button>
-                                                    </div>
-                                                  );
-                                                }
-</script></code></pre>
       </section>
     </div>
   </div>
