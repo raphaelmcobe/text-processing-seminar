@@ -334,8 +334,107 @@
           - Transforms a text into a list of words;
           - Remove useless information (using Regular Expressions!)
 
+          --
+
+          ### Python [Natural Language Toolkit - NLTK](https://www.nltk.org/)
+          - Leading platform for building Python programs to work with human
+          language data
+          - A wonderful tool for teaching, and working in, computational
+          linguistics using Python;
+          - Free reference [book](http://www.nltk.org/book/)
+          - Open Source;
+          ```python
+          >>> import nltk
+          >>> nltk.download()
+          ```
+
+          --
+
+          ### Python [Natural Language Toolkit - NLTK](https://www.nltk.org/)
+          Tokenization
+          ```python[1-2|4-8|10-11]
+          # importing word_tokenize from nltk
+          from nltk.tokenize import word_tokenize
+          
+          text = """
+          Ground control to Major Tom (10, 9, 8, 7).
+          Commencing countdown, engines on (6, 5, 4, 3).
+          Check ignition, and may God's love be with you (2, 1, lift off).
+          """
+
+          token = word_tokenize(text)
+          print(token)
+
+          ```
+          ```
+          ['Ground', 'control', 'to', 'Major', 'Tom', '(', '10', ',', '9', ',', '8', ',', '7', ')', '.', 'Commencing', 'countdown', ',', 'engines', 'on', '(', '6', ',', '5', ',', '4', ',', '3', ')', '.', 'Check', 'ignition', ',', 'and', 'may', 'God', "'s", 'love', 'be', 'with', 'you', '(', '2', ',', '1', ',', 'lift', 'off', ')', '.']
+          ```
+
+          --
+
+          ### Python [Natural Language Toolkit - NLTK](https://www.nltk.org/)
+          Cleaning Before Tokenization
+          ```python[1-2|4-5|7-8|10-12|14-16]
+          # Remove non alphanumeric character 
+          text = re.sub("[^a-zA-Z0-9]",' ',text)
+
+          # Remove all numbers
+          text = re.sub('[0-9]+', '', text)
+
+          # Remove extra whitespaces
+          text = re.sub('\s+', ' ', text)
+
+          # Remove beginning and trailing whitespaces
+          text = re.sub('^\s', '', text)
+          text = re.sub('\s$', '', text)
+          ```
 
 
+          --
+
+          ### Python [Natural Language Toolkit - NLTK](https://www.nltk.org/)
+          Tokenization
+          ```python
+          # Now tokenize
+          token = word_tokenize(text)
+          print(token)
+          ```
+          ```
+          ['Ground', 'control', 'to', 'Major', 'Tom', 'Commencing', 'countdown', 'engines', 'on', 'Check', 'ignition', 'and', 'may', 'God', 's', 'love', 'be', 'with', 'you', 'lift', 'off']
+          ```
+          - Finding the frequency distinct in the tokens
+          ```python[1|3-4]
+          from nltk.probability import FreqDist
+          fdist = FreqDist(token)
+          fdist
+          ```
+
+          ```
+          FreqDist({'Ground': 1, 'control': 1, 'to': 1, 'Major': 1, 'Tom': 1, 'Commencing': 1, 'countdown': 1, 'engines': 1, 'on': 1, 'Check': 1, ...})
+          ```
+
+          --
+
+          ### Python [Natural Language Toolkit - NLTK](https://www.nltk.org/)
+          Tokenization
+          - Let's check all of the lyrics at once:
+
+          ```python
+          # load data and concatenate all lyrics
+          data = pd.read_csv("./bowie_songs.csv")
+          bowie_lyrics = " ".join(data.iloc[:,1])
+
+          # tokenize
+          token = word_tokenize(bowie_lyrics)
+
+          # build the frequency distribution and print the top 10 occurences:
+          fdist = FreqDist(token)
+          fdist.most_common(10)
+          ```
+          ```
+[(',', 2916), ('the', 2386), ('I', 2344), ('you', 1313), ('a', 1140), ('to', 993), ("'s", 870), ('and', 812), ('of', 778), ('me', 762)]
+
+          ```
         </textarea>
       </section>
 
